@@ -37,6 +37,30 @@ node *find(char *key)
     return current;
 }
 
+//Get value
+void get(char *key)
+{
+    if (isEmpty())
+    {
+        printf("ERROR: Variable does not exist\n");
+        return;
+    }
+
+    node *current = head;
+
+    while (strcmp(current->key, key) != 0)
+    {
+        if (current->next == NULL)
+        {
+            printf("ERROR: Variable does not exist\n");
+            return;
+        }
+        current = current->next;
+    }
+    printf("%s\n", strdup(current->value));
+    return;
+}
+
 // Add node
 void insert(char *key, char *value)
 {
@@ -56,14 +80,14 @@ void insert(char *key, char *value)
 }
 
 // Print memory
-void print()
+void printMemory()
 {
     node *ptr = head;
     printf("\n[ ");
     while (ptr != NULL)
     {
-        printf("(%s,%s) \n", strdup(ptr->key), strdup(ptr->value));
+        printf("(%s,%s)", strdup(ptr->key), strdup(ptr->value));
         ptr = ptr->next;
     }
-    printf(" ]");
+    printf(" ]\n");
 }
