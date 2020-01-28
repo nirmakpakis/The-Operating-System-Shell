@@ -8,7 +8,7 @@ This is a project for the class ECSE 427/COMP 310
   gcc -c shell.c interpreter.c shellmemory.c
   gcc -o mysh shell.o interpreter.o shellmemory.o
   ```
-  ### Compiling the shell with make file
+  ### Compiling with make file
   ```bash
   make
   ```
