@@ -27,22 +27,22 @@ int interpreter(char *words[])
     return errorcode;
 }
 
-void help()
+int help(char *words[])
 {
 }
 
-void quit()
+int quit(char *words[])
 {
 }
 
-void set()
+int set(char *words[])
 {
 }
 
-void print()
+int print(char *words[])
 {
 }
 
-void run()
+int run(char *words[])
 {
 }
