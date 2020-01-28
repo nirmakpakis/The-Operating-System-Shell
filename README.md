@@ -17,4 +17,7 @@ Welcome to the Irmak's shell!
 Version 1.0 Created January 2020
 $
 ```
-
+## Testing Shell
+```bash
+./mysh < testfile.txt
+```
