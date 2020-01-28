@@ -10,9 +10,26 @@
 
 int main()
 {
+    printf("Welcome to the Irmak's shell!");
+    printf("Version 1.0 Created January 2020");
+    printf("$");
+
+    char userInput[1000];
+    int errorCode = 0;
+
+    while (1)
+    {
+        fgets(userInput, 999, stdin);
+        printf(userInput);
+        if (userInput == "0")
+        {
+            exit(0);
+        }
+        printf("$");
+    }
 }
 
-void parse(char ui[])
+int parse(char ui[])
 {
 
     char tmp[200];
