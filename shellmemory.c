@@ -1,51 +1,51 @@
 /**
-* Nihal Irmak Pakis
-* 260733837
-*/
+ *
+ * @author Irmak Pakis
+ * @dateCreated  29th January 2020
+ * 
+ */
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "shellmemory.h"
 
-typedef struct node
-{
-    char *key;
-    char *value;
-} node;
-
-node memory[1000] = {0};
+node memory[MEMORY_SIZE] = {0};
 int memoryIndex = 0;
 
 //Get value
-void get(char *key)
+int get(char *key)
 {
     for (int i = 0; i < memoryIndex; i++)
     {
         if (strcmp(memory[i].key, key) == 0)
         {
             printf("%s\n", strdup(memory[i].value));
-            return;
+            return 0;
         }
     }
-    printf("ERROR: Variable does not exist\n");
-    return;
+    return VARIABLE_DOES_NOT_EXISTS;
 }
 
 // Add node
-void insert(char *key, char *value)
+int insert(char *key, char *value)
 {
+    if (memoryIndex > MEMORY_SIZE)
+    {
+        return MEMORY_EXCEED;
+    }
     for (int i = 0; i < memoryIndex; i++)
     {
         if (strcmp(memory[i].key, key) == 0)
         {
             memory[i].value = strdup(value);
-            return;
+            return 0;
         }
     }
     node p1 = {p1.key = key, p1.value = value};
     memory[memoryIndex] = p1;
     memoryIndex++;
-    return;
+    return 0;
 }
 
 void printMemory()

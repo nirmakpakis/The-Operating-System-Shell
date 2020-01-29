@@ -1,38 +1,67 @@
 /**
-* Nihal Irmak Pakis
-* 260733837
-*/
+ *
+ * @author Irmak Pakis
+ * @dateCreated  29th January 2020
+ *
+ */
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "interpreter.h"
 
-int interpreter(char *words[])
+int interpreter(char *words[], int size)
 {
     int errorcode = 0;
+
     if (strcmp(words[0], "help") == 0)
     {
+        if (size != 1)
+        {
+            printf("HELP does not accept any arguments!\n");
+            return WRONG_NUMBER_OF_ARGUMENTS;
+        }
         errorcode = help();
     }
     else if (strcmp(words[0], "quit") == 0)
     {
+        if (size != 1)
+        {
+            printf("QUIT does not accept any arguments!n");
+            return WRONG_NUMBER_OF_ARGUMENTS;
+        }
         errorcode = quit();
     }
     else if (strcmp(words[0], "set") == 0)
     {
+        if (size != 3)
+        {
+            printf("SET accepts 2 arguments only!\n");
+            return WRONG_NUMBER_OF_ARGUMENTS;
+        }
         errorcode = set(words);
     }
     else if (strcmp(words[0], "print") == 0)
     {
-        errorcode = printKey(words);
+        if (size != 2)
+        {
+            printf("PRINT accepts 1 argument only!\n");
+            return WRONG_NUMBER_OF_ARGUMENTS;
+        }
+        errorcode = print(words);
     }
     else if (strcmp(words[0], "run") == 0)
     {
+        if (size != 2)
+        {
+            printf("RUN ACCEPTS 1 ARGUMENT ONLY\n");
+            return WRONG_NUMBER_OF_ARGUMENTS;
+        }
         errorcode = run(words[1]);
     }
     else
     {
-        printf("Unknown command!\n");
+        errorcode = INVALID_COMMAND;
     }
 
     return errorcode;
@@ -40,7 +69,7 @@ int interpreter(char *words[])
 
 int help()
 {
-    printf("COMMAND DESCRIPTION \
+    printf("COMMANDS: \
                     \n  help: Displays all the commands\
                     \n  quit: Exits / terminates the shell with “Bye!”\
                     \n  set <VAR> <STRING>: Assigns a value to shell memory\
@@ -52,26 +81,22 @@ int help()
 int quit()
 {
     printf("Bye!\n");
-    return -1;
+    return QUIT_SHELL;
 }
 
 int set(char *words[])
 {
     char *key = words[1];
     char *value = words[2];
-    if (insert(key, value))
-    {
-        //printMemory();
+    int errorCode = insert(key, value);
+    if (errorCode != MEMORY_EXCEED)
         printf("The variable %s is set to %s \n", key, value);
-        return 0;
-    }
-    return 10;
+    return errorCode;
 }
 
-int printKey(char *words[])
+int print(char *words[])
 {
-    get(words[1]);
-    return 0;
+    return get(words[1]);
 }
 
 int run(char *fileName)
@@ -79,8 +104,7 @@ int run(char *fileName)
     FILE *file = fopen(fileName, "r");
     if (file == NULL)
     {
-        printf("ERROR: Script not found\n");
-        return 0;
+        return FILE_NOT_FOUND;
     }
 
     char text_input[100] = {0};
@@ -91,7 +115,7 @@ int run(char *fileName)
         int errorCode = parse(text_input);
         switch (errorCode)
         {
-        case -1:
+        case QUIT_SHELL:
             exit(0);
         }
     }

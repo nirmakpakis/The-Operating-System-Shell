@@ -1,18 +1,20 @@
 /**
-* Nihal Irmak Pakis
-* nihal.pakis@mail.mcgill.ca
-* 260733837
-*/
+ *
+ * @author Irmak Pakis
+ * @dateCreated  29th January 2020
+ * 
+ */
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "shell.h"
 
 int main()
 {
     printf("Welcome to the Irmak's shell!\n");
     printf("Version 1.0 Created January 2020\n");
-    printf("$");
+    printf("$ ");
 
     char userInput[1000];
     int errorCode = 0;
@@ -20,14 +22,27 @@ int main()
     while (1)
     {
         fgets(userInput, 999, stdin);
-        printf("%s", userInput);
+        //printf("%s", userInput);
         errorCode = parse(userInput);
-        //TODO: check errorCode
-        if (errorCode == -1)
+        switch (errorCode)
         {
+        case QUIT_SHELL:
             exit(0);
+            break;
+        case INVALID_COMMAND:
+            printf("Invalid Command!\n");
+            break;
+        case VARIABLE_DOES_NOT_EXISTS:
+            printf("Variable Does Not Exist\n");
+            break;
+        case MEMORY_EXCEED:
+            printf("Memory Exceeded!\n");
+            break;
+        case FILE_NOT_FOUND:
+            printf("Script not found!\n");
+            break;
         }
-        printf("$");
+        printf("$ ");
     }
 }
 
@@ -56,5 +71,5 @@ int parse(char ui[])
         w++;
     }
     // assumes: cmd switches args
-    return interpreter(words);
+    return interpreter(words, w);
 }
