@@ -20,6 +20,7 @@ int main()
     while (1)
     {
         fgets(userInput, 999, stdin);
+        printf("%s", userInput);
         errorCode = parse(userInput);
         //TODO: check errorCode
         if (errorCode == -1)
@@ -43,10 +44,10 @@ int parse(char ui[])
     for (a = 0; ui[a] == ' ' && a < 1000; a++)
         ;
 
-    while (ui[a] != '\0' && ui[a] != '\n' && a < 1000)
+    while (ui[a] != '\0' && ui[a] != '\n' && ui[a] != '\r' && a < 1000)
     {
 
-        for (b = 0; ui[a] != '\0' && ui[a] != '\n' && ui[a] != ' ' && a < 1000; a++, b++)
+        for (b = 0; ui[a] != '\0' && ui[a] != '\n' && ui[a] != '\r' && ui[a] != ' ' && a < 1000; a++, b++)
             tmp[b] = ui[a]; // extract a word
 
         tmp[b] = '\0';

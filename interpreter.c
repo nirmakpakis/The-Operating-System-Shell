@@ -61,7 +61,7 @@ int set(char *words[])
     char *value = words[2];
     if (insert(key, value))
     {
-        printMemory();
+        //printMemory();
         printf("The variable %s is set to %s \n", key, value);
         return 0;
     }
