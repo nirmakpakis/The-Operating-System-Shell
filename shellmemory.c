@@ -17,15 +17,10 @@ typedef struct node
 
 node *head = NULL;
 
-bool isEmpty()
-{
-    return head == NULL;
-}
-
 // Find key
 node *find(char *key)
 {
-    if (isEmpty())
+    if (head == NULL)
         return NULL;
     node *current = head;
     while (strcmp(current->key, key) != 0)
@@ -40,9 +35,9 @@ node *find(char *key)
 //Get value
 void get(char *key)
 {
-    if (isEmpty())
+    if (head == NULL)
     {
-        printf("ERROR: Variable does not exist\n");
+        printf("Variable does not exist\n");
         return;
     }
 

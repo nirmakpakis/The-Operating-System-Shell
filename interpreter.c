@@ -1,48 +1,98 @@
+/**
+* Nihal Irmak Pakis
+* 260733837
+*/
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
-//Each command the interpreter() function accepts has a corresponding function that implements the command’s functionality.
-// Give the function the same name as the command.
-
-//TODO:
-// help: Displays all the commands
-// quit:  Exits / terminates the shell with “Bye!”
-// set VAR STRING: Assigns a value to shell memory
-// print VAR: Displays the STRING assigned to VAR
-// run SCRIPT.TXT:  Executes the file SCRIPT.TXT
-
 int interpreter(char *words[])
 {
-
     int errorcode = 0;
-
-    // The user is asking to execute a single command
-    if (strcmp(words[0], “help”) errCode = help(words);
-    else if (strcmp(words[0], “quit”) errCode = quit(words);
-    else if (strcmp(words[0], “set”) errCode = set(words);
-    else if (strcmp(words[0], “print”) errCode = print(words);
-    else if (strcmp(words[0], “run”) errCode = run(words);
+    if (strcmp(words[0], "help") == 0)
+    {
+        errorcode = help();
+    }
+    else if (strcmp(words[0], "quit") == 0)
+    {
+        errorcode = quit();
+    }
+    else if (strcmp(words[0], "set") == 0)
+    {
+        errorcode = set(words);
+    }
+    else if (strcmp(words[0], "print") == 0)
+    {
+        errorcode = printKey(words);
+    }
+    else if (strcmp(words[0], "run") == 0)
+    {
+        errorcode = run(words[1]);
+    }
+    else
+    {
+        printf("Unknown command!\n");
+    }
 
     return errorcode;
 }
 
-int help(char *words[])
+int help()
 {
+    printf("COMMAND DESCRIPTION \
+                    \n  help: Displays all the commands\
+                    \n  quit: Exits / terminates the shell with “Bye!”\
+                    \n  set <VAR> <STRING>: Assigns a value to shell memory\
+                    \n  print <VAR>: Prints the STRING assigned to VAR\
+                    \n  run SCRIPT.TXT: Executes the file SCRIPT.TXT\n");
+    return 0;
 }
 
-int quit(char *words[])
+int quit()
 {
+    printf("Bye!\n");
+    return -1;
 }
 
 int set(char *words[])
 {
+    char *key = words[1];
+    char *value = words[2];
+    if (insert(key, value))
+    {
+        printf("The variable %s is set to %s \n", key, value);
+        return 0;
+    }
+    return 10;
 }
 
-int print(char *words[])
+int printKey(char *words[])
 {
+    get(words[1]);
+    return 0;
 }
 
-int run(char *words[])
+int run(char *fileName)
 {
+    FILE *file = fopen(fileName, "r");
+    if (file == NULL)
+    {
+        printf("ERROR: Script not found\n");
+        return 0;
+    }
+
+    char line[256];
+
+    while (fgets(line, sizeof(line), file))
+    {
+        int errorCode = parse(line);
+        switch (errorCode)
+        {
+        case -1:
+            exit(0);
+        }
+    }
+    fclose(file);
+    return 0;
 }

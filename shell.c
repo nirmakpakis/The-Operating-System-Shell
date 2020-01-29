@@ -10,8 +10,8 @@
 
 int main()
 {
-    printf("Welcome to the Irmak's shell!");
-    printf("Version 1.0 Created January 2020");
+    printf("Welcome to the Irmak's shell!\n");
+    printf("Version 1.0 Created January 2020\n");
     printf("$");
 
     char userInput[1000];
@@ -20,8 +20,9 @@ int main()
     while (1)
     {
         fgets(userInput, 999, stdin);
-        printf(userInput);
-        if (userInput == "0")
+        errorCode = parse(userInput);
+        //TODO: check errorCode
+        if (errorCode == -1)
         {
             exit(0);
         }
@@ -33,7 +34,8 @@ int parse(char ui[])
 {
 
     char tmp[200];
-    int a, b;
+    int a = 0;
+    int b = 0;
     char *words[100];
     int w = 0; // wordsIdx
 
@@ -41,10 +43,10 @@ int parse(char ui[])
     for (a = 0; ui[a] == ' ' && a < 1000; a++)
         ;
 
-    while (ui[a] != '\0' && a < 1000)
+    while (ui[a] != '\0' && ui[a] != '\n' && a < 1000)
     {
 
-        for (b = 0; ui[a] != '\0' && ui[a] != ' ' && a < 1000; a++, b++)
+        for (b = 0; ui[a] != '\0' && ui[a] != '\n' && ui[a] != ' ' && a < 1000; a++, b++)
             tmp[b] = ui[a]; // extract a word
 
         tmp[b] = '\0';
