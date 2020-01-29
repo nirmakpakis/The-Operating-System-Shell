@@ -1,6 +1,0 @@
-help
-set A 5
-print B
-set h 6
-print h
-quit
