@@ -6,83 +6,53 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
 typedef struct node
 {
     char *key;
     char *value;
-    struct node *next;
 } node;
 
-node *head = NULL;
-
-// Find key
-node *find(char *key)
-{
-    if (head == NULL)
-        return NULL;
-    node *current = head;
-    while (strcmp(current->key, key) != 0)
-    {
-        if (current->next == NULL)
-            return NULL;
-        current = current->next;
-    }
-    return current;
-}
+node memory[1000] = {0};
+int memoryIndex = 0;
 
 //Get value
 void get(char *key)
 {
-    if (head == NULL)
+    for (int i = 0; i < memoryIndex; i++)
     {
-        printf("Variable does not exist\n");
-        return;
-    }
-
-    node *current = head;
-
-    while (strcmp(current->key, key) != 0)
-    {
-        if (current->next == NULL)
+        if (strcmp(memory[i].key, key) == 0)
         {
-            printf("ERROR: Variable does not exist\n");
+            printf("%s\n", strdup(memory[i].value));
             return;
         }
-        current = current->next;
     }
-    printf("%s\n", strdup(current->value));
+    printf("ERROR: Variable does not exist\n");
     return;
 }
 
 // Add node
 void insert(char *key, char *value)
 {
-    if (find(key) == NULL)
+    for (int i = 0; i < memoryIndex; i++)
     {
-        node *newNode = (node *)malloc(sizeof(node));
-        newNode->key = strdup(key);
-        newNode->value = strdup(value);
-        newNode->next = head;
-        head = newNode;
+        if (strcmp(memory[i].key, key) == 0)
+        {
+            memory[i].value = strdup(value);
+            return;
+        }
     }
-    else
-    {
-        node *aNode = find(key);
-        aNode->value = strdup(value);
-    }
+    node p1 = {p1.key = key, p1.value = value};
+    memory[memoryIndex] = p1;
+    memoryIndex++;
+    return;
 }
 
-// Print memory
 void printMemory()
 {
-    node *ptr = head;
-    printf("\n[ ");
-    while (ptr != NULL)
+    for (int i = 0; i < memoryIndex; i++)
     {
-        printf("(%s,%s)", strdup(ptr->key), strdup(ptr->value));
-        ptr = ptr->next;
+        printf("(%s,%s)", strdup(memory[i].key), strdup(memory[i].value));
+        printf("\n");
     }
-    printf(" ]\n");
 }

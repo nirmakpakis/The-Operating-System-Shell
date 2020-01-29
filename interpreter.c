@@ -61,6 +61,7 @@ int set(char *words[])
     char *value = words[2];
     if (insert(key, value))
     {
+        printMemory();
         printf("The variable %s is set to %s \n", key, value);
         return 0;
     }
@@ -82,11 +83,12 @@ int run(char *fileName)
         return 0;
     }
 
-    char line[256];
+    char text_input[100] = {0};
+    int errCode = 0;
 
-    while (fgets(line, sizeof(line), file))
+    while (fgets(text_input, sizeof(text_input), file))
     {
-        int errorCode = parse(line);
+        int errorCode = parse(text_input);
         switch (errorCode)
         {
         case -1:
