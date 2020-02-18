@@ -28,10 +28,10 @@ $
 ./mysh < testfile.txt
 ```
 ## Commands:
-  * help: Displays all the commands
-  * quit: Exits / terminates the shell with “Bye!”
-  * set <VAR> <STRING>: Assigns a value to shell memory
-  * print <VAR>: Prints the STRING assigned to VAR
+  * **help**: Displays all the commands
+  * **quit**: Exits / terminates the shell with “Bye!”
+  * **set <VAR> <STRING>**: Assigns a value to shell memory
+  * **print <VAR>**: Prints the STRING assigned to VAR
   * run SCRIPT.TXT: Executes the file SCRIPT.TXT
   * exec <P1> <P2> <P3>: Executes concurrent programs
 
