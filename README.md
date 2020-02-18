@@ -12,9 +12,9 @@ I used mimi.cs.mcgill.ca to test it
   ```bash
   make
   ```
-## Running the shell
+## Running the kernal
 ```bash
-./mysh
+./mykernel
 ```
 ## The promtline
 ```bash
@@ -23,9 +23,9 @@ Welcome to the Irmak's shell!
 Shell version 2.0 Updated February 2020
 $
 ```
-## Testing Shell
+## Testing Kernel
 ```bash
-./mysh < testfile.txt
+./mykernel < testfile.txt
 ```
 ## Commands:
   * help: Displays all the commands
