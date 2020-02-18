@@ -1,6 +1,6 @@
 # The-Operating-System-Shell
 This is a project for the class ECSE 427/COMP 310
-
+I used mimi.cs.mcgill.ca to test it
 
 ## Compiling the shell
   ### Compiling manualy 
@@ -26,3 +26,4 @@ $
 ```bash
 ./mysh < testfile.txt
 ```
+

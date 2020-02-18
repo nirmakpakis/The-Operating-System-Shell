@@ -10,6 +10,12 @@
 #include <stdlib.h>
 #include "shellmemory.h"
 
+typedef struct node
+{
+    char *key;
+    char *value;
+} node;
+
 node memory[MEMORY_SIZE] = {0};
 int memoryIndex = 0;
 
