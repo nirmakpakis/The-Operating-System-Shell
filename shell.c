@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include "shell.h"
 
-int main()
+int shellUI()
 {
     printf("Welcome to the Irmak's shell!\n");
     printf("Version 1.0 Created January 2020\n");
@@ -39,7 +39,10 @@ int main()
             printf("Memory Exceeded!\n");
             break;
         case FILE_NOT_FOUND:
-            printf("Script not found!\n");
+            printf("Script Not Found!\n");
+            break;
+        case RAM_MEMORY_EXCEED:
+            printf("Ram Memory Exceeded!\n");
             break;
         }
         printf("$ ");

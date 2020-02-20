@@ -59,6 +59,20 @@ int interpreter(char *words[], int size)
         }
         errorcode = run(words[1]);
     }
+    else if (strcmp(words[0], "exec") == 0)
+    {
+        if (size > 4)
+        {
+            printf("EXEC ACCEPTS AT MOST 3 ARGUMENTS \n");
+            return WRONG_NUMBER_OF_ARGUMENTS;
+        }
+        if (size < 2)
+        {
+            printf("EXEC ACCEPTS AT LEAST 1 ARGUMENT \n");
+            return WRONG_NUMBER_OF_ARGUMENTS;
+        }
+        errorcode = exec(words, size);
+    }
     else
     {
         errorcode = INVALID_COMMAND;
@@ -74,7 +88,8 @@ int help()
                     \n  quit: Exits / terminates the shell with “Bye!”\
                     \n  set <VAR> <STRING>: Assigns a value to shell memory\
                     \n  print <VAR>: Prints the STRING assigned to VAR\
-                    \n  run SCRIPT.TXT: Executes the file SCRIPT.TXT\n");
+                    \n  run SCRIPT.TXT: Executes the file SCRIPT.TXT\
+                    \n  exect <p1> <p2> <p2>: Executes concurrent programs \n");
     return 0;
 }
 
@@ -108,7 +123,6 @@ int run(char *fileName)
     }
 
     char text_input[100] = {0};
-    int errCode = 0;
 
     while (fgets(text_input, sizeof(text_input), file))
     {
@@ -120,5 +134,25 @@ int run(char *fileName)
         }
     }
     fclose(file);
+    return 0;
+}
+
+int exec(char *words[], int size)
+{
+    for (int i = 1; i < size; i++)
+    {
+        char *program = words[i];
+        FILE *file = fopen(program, "r");
+        if (file == NULL)
+        {
+            return FILE_NOT_FOUND;
+        }
+        else
+        {
+            myinit(program);
+        }
+        fclose(program);
+    }
+    schedule();
     return 0;
 }
