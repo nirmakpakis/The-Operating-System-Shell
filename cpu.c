@@ -9,25 +9,39 @@
 #include <stdlib.h>
 #include "cpu.h"
 
-CPU *cpu = NULL;
+CPU *cpu_instance = NULL;
 
-void initCPU()
+void clearCPU()
 {
-    cpu = (CPU *)malloc(sizeof(CPU));
-    cpu->quanta = 0;
+    cpu_instance = (CPU *)malloc(sizeof(CPU));
+    cpu_instance->quanta = 0;
+    cpu_instance->IP = 0;
 }
 
 void fillCPU(int IP, int quanta)
 {
-    cpu->IP = IP;
-    cpu->IR = getInstructionFromRAM(IP);
-    cpu->quanta = quanta;
+    cpu_instance->IP = IP;
+    cpu_instance->IP = (char *)malloc(sizeof(char) * 10000);
+    strcpy(cpu_instance->IP, getInstructionFromRAM(cpu_instance->IP));
+    cpu_instance->quanta = quanta;
 }
 
-void run(int quanta)
+void run(int quanta, int endOfFile)
 {
     while (quanta-- > 0)
     {
-        parse(cpu->IR);
+        parse(cpu_instance->IR);
+        cpu_instance->IP = cpu_instance->IP + 1;
+        if (cpu_instance->IP > endOfFile)
+        {
+            printf("This program terminated!");
+            cpu_instance->IP = cpu_instance->IP - 1;
+            break;
+        }
+        else
+        {
+            strcpy(cpu_instance->IR, ram[cpu_instance->IP]);
+            cpu_instance->quanta = cpu_instance->quanta - 1;
+        }
     }
 }

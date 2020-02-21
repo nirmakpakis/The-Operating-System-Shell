@@ -1,11 +1,6 @@
 #ifndef PCB_H_
 #define PCB_H_
-#include "shellmemory.h"
-#include "interpreter.h"
-#include "shell.h"
-#include "kernel.h"
-#include "cpu.h"
-#include "ram.h"
+#include <stdbool.h>
 
 typedef struct pcb_object
 {
@@ -17,7 +12,7 @@ typedef struct pcb_object
 PCB *makePCB(int start, int end);
 void clearReadyQueue();
 bool readyQueueIsEmpty();
-void push(PCB *pcb);
+void push(PCB *);
 PCB *pop();
 
 #endif //PCB_H_

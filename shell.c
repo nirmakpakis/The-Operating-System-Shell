@@ -17,12 +17,12 @@ int shellUI()
     printf("$ ");
 
     char userInput[1000];
+    printf("%s", userInput);
     int errorCode = 0;
 
     while (1)
     {
         fgets(userInput, 999, stdin);
-        //printf("%s", userInput);
         errorCode = parse(userInput);
         switch (errorCode)
         {

@@ -2,12 +2,8 @@
 #define SHELL_H_
 #include "shellmemory.h"
 #include "interpreter.h"
-#include "pcb.h"
-#include "kernel.h"
-#include "cpu.h"
-#include "ram.h"
 
+int shellUI();
 int parse(char ui[]);
-int printShell();
 
 #endif //SHELL_H_

@@ -8,7 +8,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include "pcb.h"
 
 typedef struct ReadyQueueNode
@@ -65,12 +64,22 @@ PCB *pop()
     }
     if (head == tail)
     {
-        PCB *tmp = head;
+        PCB *tmp = head->pcb;
         head = NULL;
         tail = NULL;
         return tmp;
     }
-    PCB *tmp = head;
+    PCB *tmp = head->pcb;
     head = head->next;
     return tmp;
+}
+
+void printQueue()
+{
+    while (head != NULL)
+    {
+        printf("PCB start: %d\n", head->pcb->start);
+        printf("PCB end: %d\n", head->pcb->end);
+        head = head->next;
+    }
 }

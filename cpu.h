@@ -14,10 +14,10 @@ typedef struct cpu_object
     int quanta;
 } CPU;
 
-extern CPU *cpu = NULL;
-
-void initCPU();
-void run(int quanta);
+void clearCPU();
+void run(int quanta, int endOfFile);
 void fillCPU(int IP, int quanta);
+
+extern CPU *cpu_instance;
 
 #endif //CPU_H_

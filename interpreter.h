@@ -12,7 +12,7 @@ int help();
 int quit();
 int set(char *words[]);
 int printKey(char *words[]);
-int run(char *fileName);
+int runFile(char *fileName);
 int exec(char *words[], int size);
 
 #define INVALID_COMMAND 100

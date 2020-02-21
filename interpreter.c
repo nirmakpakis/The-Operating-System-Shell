@@ -57,7 +57,7 @@ int interpreter(char *words[], int size)
             printf("RUN ACCEPTS 1 ARGUMENT ONLY\n");
             return WRONG_NUMBER_OF_ARGUMENTS;
         }
-        errorcode = run(words[1]);
+        errorcode = runFile(words[1]);
     }
     else if (strcmp(words[0], "exec") == 0)
     {
@@ -114,7 +114,7 @@ int print(char *words[])
     return get(words[1]);
 }
 
-int run(char *fileName)
+int runFile(char *fileName)
 {
     FILE *file = fopen(fileName, "r");
     if (file == NULL)
@@ -141,18 +141,12 @@ int exec(char *words[], int size)
 {
     for (int i = 1; i < size; i++)
     {
-        char *program = words[i];
-        FILE *file = fopen(program, "r");
-        if (file == NULL)
-        {
-            return FILE_NOT_FOUND;
-        }
-        else
-        {
-            myinit(program);
-        }
-        fclose(program);
+        char *program = (char *)malloc(sizeof(char) * 100);
+        strcpy(program, words[i]);
+        myinit(program);
     }
-    schedule();
+    //printRAM();
+    //printQueue();
+    scheduler();
     return 0;
 }
