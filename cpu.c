@@ -18,14 +18,6 @@ void clearCPU()
     cpu_instance->IP = 0;
 }
 
-void fillCPU(int IP, int quanta)
-{
-    cpu_instance->IP = IP;
-    cpu_instance->IP = (char *)malloc(sizeof(char) * 10000);
-    strcpy(cpu_instance->IP, getInstructionFromRAM(cpu_instance->IP));
-    cpu_instance->quanta = quanta;
-}
-
 void run(int quanta, int endOfFile)
 {
     while (quanta-- > 0)

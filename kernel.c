@@ -30,9 +30,10 @@ int myinit(char *filename)
     {
         return FILE_NOT_FOUND;
     }
+    fclose(file);
 
     // Add file to ram
-    int errorCode = addToRAM(file, start, end);
+    addToRAM(file, start, end);
 
     // make pcb
     PCB *pcb = makePCB(*start, *end);
@@ -40,10 +41,8 @@ int myinit(char *filename)
     // add to ready queue
     addToReadyQueue(pcb);
 
-    // // maybe yes maybe no
-    fclose(file);
-    // free(start);
-    // free(end);
+    free(start);
+    free(end);
 }
 
 void addToReadyQueue(PCB *pcb)
@@ -51,7 +50,6 @@ void addToReadyQueue(PCB *pcb)
     push(pcb);
 }
 
-//TODO: consider the end of files
 void scheduler()
 {
     while (!readyQueueIsEmpty())

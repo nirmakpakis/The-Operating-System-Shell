@@ -145,8 +145,12 @@ int exec(char *words[], int size)
         strcpy(program, words[i]);
         myinit(program);
     }
-    //printRAM();
-    //printQueue();
     scheduler();
+
+    //clean
+    clearRAM();
+    clearReadyQueue();
+    clearCPU();
+
     return 0;
 }

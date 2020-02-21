@@ -73,13 +73,3 @@ PCB *pop()
     head = head->next;
     return tmp;
 }
-
-void printQueue()
-{
-    while (head != NULL)
-    {
-        printf("PCB start: %d\n", head->pcb->start);
-        printf("PCB end: %d\n", head->pcb->end);
-        head = head->next;
-    }
-}

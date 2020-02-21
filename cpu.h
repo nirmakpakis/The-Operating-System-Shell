@@ -16,7 +16,6 @@ typedef struct cpu_object
 
 void clearCPU();
 void run(int quanta, int endOfFile);
-void fillCPU(int IP, int quanta);
 
 extern CPU *cpu_instance;
 
