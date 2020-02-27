@@ -31,8 +31,7 @@ int addToRAM(FILE *file, int *start, int *end)
 
     if (i == 1000)
     {
-        printf("Ram Memory Exceeded!");
-        exit(1);
+        return RAM_MEMORY_EXCEED;
     }
 
     *end = i - 1;

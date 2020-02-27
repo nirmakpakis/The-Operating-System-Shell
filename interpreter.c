@@ -148,7 +148,7 @@ int exec(char *words[], int size)
         {
             return errorCode;
         }
-        }
+    }
     scheduler();
 
     clearRAM();

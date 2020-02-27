@@ -32,7 +32,12 @@ int myinit(char *filename)
     }
 
     // Add file to ram
-    addToRAM(file, start, end);
+    int errorCode = addToRAM(file, start, end);
+
+    if (errorCode == RAM_MEMORY_EXCEED)
+    {
+        return RAM_MEMORY_EXCEED;
+    }
 
     // make pcb
     PCB *pcb = makePCB(*start, *end);
