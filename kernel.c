@@ -30,7 +30,6 @@ int myinit(char *filename)
     {
         return FILE_NOT_FOUND;
     }
-    fclose(file);
 
     // Add file to ram
     addToRAM(file, start, end);
@@ -41,6 +40,7 @@ int myinit(char *filename)
     // add to ready queue
     addToReadyQueue(pcb);
 
+    fclose(file);
     free(start);
     free(end);
 }

@@ -143,11 +143,14 @@ int exec(char *words[], int size)
     {
         char *program = (char *)malloc(sizeof(char) * 100);
         strcpy(program, words[i]);
-        myinit(program);
-    }
+        int errorCode = myinit(program);
+        if (errorCode != 0)
+        {
+            return errorCode;
+        }
+        }
     scheduler();
 
-    //clean
     clearRAM();
     clearReadyQueue();
     clearCPU();

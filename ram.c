@@ -12,7 +12,7 @@
 
 char *ram[1000];
 
-void addToRAM(FILE *file, int *start, int *end)
+int addToRAM(FILE *file, int *start, int *end)
 {
     int i = 0;
     while (ram[i] != NULL && i < 1000)
