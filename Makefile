@@ -1,5 +1,7 @@
-mykernal: shell.o interpreter.o shellmemory.o kernel.o cpu.o pcb.o ram.o
-	gcc -o mykernel shell.o interpreter.o shellmemory.o kernel.o cpu.o pcb.o ram.o
+mykernal: shell.o memorymanager.o interpreter.o shellmemory.o kernel.o cpu.o pcb.o ram.o
+	gcc -o mykernel memorymanager.o shell.o interpreter.o shellmemory.o kernel.o cpu.o pcb.o ram.o 
+memorymanager.o: memorymanager.c
+	gcc -c memorymanager.c
 shellmemory.o: shellmemory.c
 	gcc -c shellmemory.c
 interpreter.o: interpreter.c

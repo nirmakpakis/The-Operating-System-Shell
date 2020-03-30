@@ -9,5 +9,7 @@
 int myinit(char *filename);
 void addToReadyQueue(PCB *pcb);
 void scheduler();
+void boot();
+void clearBackingStore();
 
 #endif //KERNAL_H_

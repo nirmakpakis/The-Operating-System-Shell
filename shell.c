@@ -47,6 +47,8 @@ int shellUI()
         }
         printf("$ ");
     }
+
+    return errorCode;
 }
 
 int parse(char ui[])

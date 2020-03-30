@@ -8,16 +8,17 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <dirent.h>
 #include "kernel.h"
 
 int main()
 {
-    clearRAM();
-    clearReadyQueue();
-    clearCPU();
-
     printf("Kernel 1.0 loaded!\n");
-    shellUI();
+
+    int errorCode = 0;
+    boot();
+    errorCode = shellUI();
+    return errorCode;
 }
 
 int myinit(char *filename)
@@ -73,4 +74,25 @@ void scheduler()
             }
         }
     }
+}
+
+void clearBackingStore()
+{
+    DIR *dir = opendir("BackingStore");
+
+    if (dir)
+    {
+        system("rm -rf BackingStore");
+    }
+    system("mkdir BackingStore");
+    return;
+}
+
+void boot()
+{
+    clearRAM();
+    clearReadyQueue();
+    clearCPU();
+    clearBackingStore();
+    return;
 }

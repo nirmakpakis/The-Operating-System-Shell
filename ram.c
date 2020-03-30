@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include "ram.h"
 
-char *ram[1000];
+char *ram[40];
 
 int addToRAM(FILE *file, int *start, int *end)
 {
@@ -41,7 +41,7 @@ int addToRAM(FILE *file, int *start, int *end)
 
 void clearRAM()
 {
-    for (int i = 0; i < 1000; i++)
+    for (int i = 0; i < 40; i++)
     {
         ram[i] = NULL;
     }

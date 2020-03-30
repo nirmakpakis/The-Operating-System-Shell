@@ -7,6 +7,10 @@ typedef struct pcb_object
     int PC;
     int start;
     int end;
+    int pageTable[10];
+    int PC_page;
+    int PC_offset;
+    int pages_max;
 } PCB;
 
 PCB *makePCB(int start, int end);

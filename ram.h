@@ -10,6 +10,6 @@
 int addToRAM(FILE *file, int *start, int *end);
 void clearRAM();
 
-extern char *ram[1000];
+extern char *ram[40];
 
 #endif //RAM_H_
