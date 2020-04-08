@@ -1,29 +1,30 @@
-#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <string.h>
 #include <stdbool.h>
+#include <time.h>
 #include "memorymanager.h"
 
-int launcher(FILE *p, char name[])
+int launcher(FILE *p, char *fileName, PCB *pcb)
 {
-
     //Copy the entire file into the backing store.
     char buffer[1024];
-    snprintf(buffer, sizeof(buffer), "cp %s BackingStore/", name);
+    snprintf(buffer, sizeof(buffer), "cp %s BackingStore/", fileName);
     system(buffer);
 
-    //Close the file pointer pointing to the original file
+    //close the file
     fclose(p);
 
-    //Open the file in the backing store
-    FILE *file = fopen(name, "r");
+    //Open the file from backing store
+    char *filePath = malloc(strlen("BackingStore/") + strlen(pcb->fileName) + 1);
+    strcpy(filePath, "BackingStore/");
+    strcat(filePath, pcb->fileName);
+    FILE *file = fopen(filePath, "r");
 
-    // make pcb and add to ready queue
-    PCB *pcb = makePCB(file, -1);
-    addToReady(pcb);
+    if (file == NULL)
+    {
+        printf("file is not backedup!\n");
+        return 0;
+    }
 
     // figure our the total number of pages
     int totalPages = countTotalPages(file);
@@ -32,15 +33,10 @@ int launcher(FILE *p, char name[])
     {
         if (totalPages < 2 && i == 1)
         {
-            break;
+            return 1;
         }
         //find an empty frame
-        int emptyFrameNumber = findFrame(file);
-
-        if (emptyFrameNumber == -1)
-        {
-            emptyFrameNumber == findVictim(pcb);
-        }
+        int emptyFrameNumber = findFrame();
 
         //load the page into ram
         loadPage(i, file, emptyFrameNumber);
@@ -49,12 +45,12 @@ int launcher(FILE *p, char name[])
         updatePageTable(pcb, i, emptyFrameNumber, -1);
     }
 
-    pcb->pages_max = totalPages;
+    return 1;
 }
 
-int countTotalPages(FILE *file)
+int countTotalPages(FILE *f)
 {
-    FILE *f = fdopen(dup(fileno(file)), "r");
+    rewind(f);
     int count = 1;
     int ch = 0;
     while (!feof(f))
@@ -74,25 +70,24 @@ int countTotalPages(FILE *file)
 
 void loadPage(int pageNumber, FILE *file, int frameNumber)
 {
+    rewind(file);
     int index_BackingStore = pageNumber * 4;
     int maxIndex_BackingStore = index_BackingStore + 4;
     int index_RAM = frameNumber * 4;
 
     char line[256];
     int i = 0;
-    while (fgets(line, sizeof(line), file))
+    while (fgets(line, sizeof(line), file) && (line != '/0' || line != '/n' || line != '/r' || line != NULL))
     {
         if (i >= index_BackingStore && i < maxIndex_BackingStore)
         {
-            ram[i] = (char *)malloc(sizeof(char) * 10000);
+            ram[index_RAM] = (char *)malloc(sizeof(char) * 10000);
             strcpy(ram[index_RAM], line);
             index_RAM++;
             index_BackingStore++;
         }
         i++;
     }
-
-    fclose(file);
 }
 
 int findFrame()
@@ -134,5 +129,12 @@ bool frameNumberDoesNotBelongToPCB(int frameNumber, PCB *pcb)
 
 int updatePageTable(PCB *pcb, int pageNumber, int frameNumber, int victimFrame)
 {
-    pcb->pageTable[pageNumber] = frameNumber;
+    if (victimFrame == -1)
+    {
+        pcb->pageTable[pageNumber] = frameNumber;
+    }
+    else
+    {
+        pcb->pageTable[pageNumber] = victimFrame;
+    }
 }

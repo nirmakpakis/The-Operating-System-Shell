@@ -1,12 +1,13 @@
 # The-Operating-System-Shell
 This is a project for the class ECSE 427/COMP 310
 I used mimi.cs.mcgill.ca to test it
+I increased the size of the given test scripts to show that how page fault works
 
 ## Compiling the shell
   ### Compiling manualy 
   ```bash
-  gcc -c shell.c interpreter.c shellmemory.c kernel.c cpu.c pcb.c ram.c
-  gcc -o mykernel shell.o interpreter.o shellmemory.o kernel.o cpu.o pcb.o ram.o
+  gcc -c memorymanager.c shell.c interpreter.c shellmemory.c kernel.c cpu.c pcb.c ram.c memorymanager.c
+  gcc -o mykernel memorymanager.o shell.o interpreter.o shellmemory.o kernel.o cpu.o pcb.o ram.o
   ```
   ### Compiling with make file
   ```bash
@@ -18,9 +19,9 @@ I used mimi.cs.mcgill.ca to test it
 ```
 ## The promtline
 ```bash
-Kernel 1.0 loaded!
-Welcome to the Irmak's shell!
-Shell version 2.0 Updated February 2020
+Kernel 1.1 loaded!
+Welcome to the Irmak's Kernel!
+Kernel Version 1.2 Created March 2020
 $
 ```
 ## Testing Kernel

@@ -25,11 +25,6 @@ int interpreter(char *words[], int size)
     }
     else if (strcmp(words[0], "quit") == 0)
     {
-        if (size != 1)
-        {
-            printf("QUIT does not accept any arguments!n");
-            return WRONG_NUMBER_OF_ARGUMENTS;
-        }
         errorcode = quit();
     }
     else if (strcmp(words[0], "set") == 0)
@@ -96,6 +91,7 @@ int help()
 int quit()
 {
     printf("Bye!\n");
+    exit(1);
     return QUIT_SHELL;
 }
 
@@ -148,12 +144,14 @@ int exec(char *words[], int size)
         {
             return errorCode;
         }
+        free(program);
     }
     scheduler();
 
     clearRAM();
     clearReadyQueue();
     clearCPU();
+    clearBackingStore();
 
     return 0;
 }

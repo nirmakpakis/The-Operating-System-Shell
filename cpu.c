@@ -18,22 +18,31 @@ void clearCPU()
     cpu_instance->IP = 0;
 }
 
-void run(int quanta, int endOfFile)
+int run(int quanta, PCB *pcb)
 {
     while (quanta-- > 0)
     {
-        parse(cpu_instance->IR);
-        cpu_instance->IP = cpu_instance->IP + 1;
-        if (cpu_instance->IP > endOfFile)
+        int nextPosition = pcb->pageTable[pcb->PC_page] * FRAMESIZE + pcb->PC_offset;
+        updateCPU(quanta, nextPosition);
+        int errorCode = updatePCB(1, pcb);
+        if (errorCode != END_OF_FILE)
         {
-            printf("This program terminated!");
-            cpu_instance->IP = cpu_instance->IP - 1;
-            break;
+            parse(cpu_instance->IR);
         }
         else
         {
-            strcpy(cpu_instance->IR, ram[cpu_instance->IP]);
-            cpu_instance->quanta = cpu_instance->quanta - 1;
+            cpu_instance->quanta = 0;
+            return END_OF_FILE;
         }
     }
+    cpu_instance->quanta = 0;
+    return 0;
+}
+
+void updateCPU(int quanta, int nextPosition)
+{
+    cpu_instance->quanta = quanta;
+    cpu_instance->IP = nextPosition;
+    strcpy(cpu_instance->IR, ram[nextPosition]);
+    cpu_instance->offset = nextPosition % 4;
 }

@@ -12,8 +12,8 @@
 
 int shellUI()
 {
-    printf("Welcome to the Irmak's shell!\n");
-    printf("Version 1.0 Created January 2020\n");
+    printf("Welcome to the Irmak's Kernel!\n");
+    printf("Version 1.2 Created March 2020\n");
     printf("$ ");
 
     char userInput[1000];

@@ -1,14 +1,11 @@
 #ifndef RAM_H_
 #define RAM_H_
-#include "shellmemory.h"
-#include "interpreter.h"
 #include "shell.h"
-#include "pcb.h"
-#include "kernel.h"
-#include "cpu.h"
+#include "common.h"
 
 int addToRAM(FILE *file, int *start, int *end);
 void clearRAM();
+void printRAM();
 
 extern char *ram[40];
 

@@ -1,21 +1,26 @@
 #ifndef CPU_H_
 #define CPU_H_
-#include "shellmemory.h"
-#include "interpreter.h"
+
 #include "shell.h"
-#include "pcb.h"
-#include "kernel.h"
 #include "ram.h"
+#include "pcb.h"
+#include "common.h"
 
 typedef struct cpu_object
 {
+    // instruction pointer
     int IP;
+    // instruction register (the command)
     char IR[1000];
+    // runtime
     int quanta;
+    // Offset
+    int offset;
 } CPU;
 
 void clearCPU();
-void run(int quanta, int endOfFile);
+int run(int quanta, PCB *pcb);
+void updateCPU(int quanta, int nextPosition);
 
 extern CPU *cpu_instance;
 

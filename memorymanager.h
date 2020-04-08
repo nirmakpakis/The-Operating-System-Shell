@@ -3,8 +3,9 @@
 
 #include "pcb.h"
 #include "ram.h"
+#include "common.h"
 
-int launcher(FILE *p, char name[]);
+int launcher(FILE *p, char *fileName, PCB *pcb);
 int countTotalPages(FILE *f);
 void loadPage(int pageNumber, FILE *file, int frameNumber);
 int findFrame();

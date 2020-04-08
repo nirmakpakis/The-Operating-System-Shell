@@ -1,7 +1,7 @@
 #ifndef SHELLMEMORY_H_
 #define SHELLMEMORY_H_
-#include "interpreter.h"
 #include "shell.h"
+#include "common.h"
 
 #define MEMORY_SIZE 1000
 

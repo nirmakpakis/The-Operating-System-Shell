@@ -8,12 +8,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <dirent.h>
 #include "kernel.h"
 
 int main()
 {
-    printf("Kernel 1.0 loaded!\n");
+    printf("Kernel 1.1 loaded!\n");
 
     int errorCode = 0;
     boot();
@@ -23,8 +24,6 @@ int main()
 
 int myinit(char *filename)
 {
-    int *start = malloc(sizeof(int));
-    int *end = malloc(sizeof(int));
     FILE *file = fopen(filename, "r");
 
     if (file == NULL)
@@ -32,23 +31,21 @@ int myinit(char *filename)
         return FILE_NOT_FOUND;
     }
 
-    // Add file to ram
-    int errorCode = addToRAM(file, start, end);
-
-    if (errorCode == RAM_MEMORY_EXCEED)
-    {
-        return RAM_MEMORY_EXCEED;
-    }
-
     // make pcb
-    PCB *pcb = makePCB(*start, *end);
+    PCB *pcb = makePCB(file, filename);
+
+    // Add file to ram
+    int errorcode = launcher(file, filename, pcb);
+
+    if (errorcode == 0)
+    {
+        return FILE_NOT_FOUND;
+    }
 
     // add to ready queue
     addToReadyQueue(pcb);
 
-    fclose(file);
-    free(start);
-    free(end);
+    return 0;
 }
 
 void addToReadyQueue(PCB *pcb)
@@ -58,19 +55,23 @@ void addToReadyQueue(PCB *pcb)
 
 void scheduler()
 {
+    int quanta = 2;
     while (!readyQueueIsEmpty())
     {
         if (cpu_instance->quanta == 0)
         {
             PCB *pcb = pop();
-            cpu_instance->IP = pcb->PC;
-            strcpy(cpu_instance->IR, ram[cpu_instance->IP]);
-            cpu_instance->quanta = 2;
-            run(2, pcb->end);
-            pcb->PC = cpu_instance->IP;
-            if (pcb->PC != pcb->end)
+            if (pcb->pageTable[pcb->PC_page] == PAGE_NOT_INITIALIZED)
             {
-                addToReadyQueue(pcb);
+                pageFault(pcb);
+            }
+            else
+            {
+                int errorCode = run(quanta, pcb);
+                if (errorCode != END_OF_FILE)
+                {
+                    addToReadyQueue(pcb);
+                }
             }
         }
     }
@@ -95,4 +96,40 @@ void boot()
     clearCPU();
     clearBackingStore();
     return;
+}
+
+void pageFault(PCB *pcb)
+{
+    int currentPage = pcb->PC_page;
+    if (currentPage > pcb->pages_max - 1)
+    {
+        return;
+    }
+    else
+    {
+        char *filePath = malloc(strlen("BackingStore/") + strlen(pcb->fileName) + 1);
+        strcpy(filePath, "BackingStore/");
+        strcat(filePath, pcb->fileName);
+        FILE *file_copy = fopen(filePath, "r");
+
+        if (findFrame() != -1)
+        {
+            int emptyFrameNumber = findFrame();
+            loadPage(currentPage, file_copy, emptyFrameNumber);
+            pcb->pageTable[currentPage] = emptyFrameNumber;
+            pcb->PC_offset = 0;
+            addToReadyQueue(pcb);
+        }
+        else
+        {
+            int victimFrameNumber = findVictim(pcb);
+            updateVictimsPageTable(victimFrameNumber);
+            loadPage(currentPage, file_copy, victimFrameNumber);
+            pcb->pageTable[currentPage] = victimFrameNumber;
+            pcb->PC_offset = 0;
+            addToReadyQueue(pcb);
+        }
+
+        fclose(file_copy);
+    }
 }

@@ -46,3 +46,12 @@ void clearRAM()
         ram[i] = NULL;
     }
 }
+
+void printRAM()
+{
+    printf("RAM:\n");
+    for (int i = 0; i < 39; i++)
+    {
+        printf("%s\n", ram[i]);
+    }
+}

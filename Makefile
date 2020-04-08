@@ -1,4 +1,4 @@
-mykernal: shell.o memorymanager.o interpreter.o shellmemory.o kernel.o cpu.o pcb.o ram.o
+mykernel: shell.o memorymanager.o interpreter.o shellmemory.o kernel.o cpu.o pcb.o ram.o
 	gcc -o mykernel memorymanager.o shell.o interpreter.o shellmemory.o kernel.o cpu.o pcb.o ram.o 
 memorymanager.o: memorymanager.c
 	gcc -c memorymanager.c
@@ -16,4 +16,6 @@ ram.o: ram.c
 	gcc -c ram.c
 pcb.o: pcb.c
 	gcc -c pcb.c
-
+clean:
+	rm *.o mykernel
+	rm -rf BackingStore
