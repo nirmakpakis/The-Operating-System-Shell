@@ -25,11 +25,8 @@ int run(int quanta, PCB *pcb)
         int nextPosition = pcb->pageTable[pcb->PC_page] * FRAMESIZE + pcb->PC_offset;
         updateCPU(quanta, nextPosition);
         int errorCode = updatePCB(1, pcb);
-        if (errorCode != END_OF_FILE)
-        {
-            parse(cpu_instance->IR);
-        }
-        else
+        parse(cpu_instance->IR);
+        if (errorCode == END_OF_FILE)
         {
             cpu_instance->quanta = 0;
             return END_OF_FILE;
@@ -39,7 +36,7 @@ int run(int quanta, PCB *pcb)
     return 0;
 }
 
-void updateCPU(int quanta, int nextPosition)
+int updateCPU(int quanta, int nextPosition)
 {
     cpu_instance->quanta = quanta;
     cpu_instance->IP = nextPosition;

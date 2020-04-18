@@ -94,30 +94,6 @@ void updateVictimsPageTable(int frameNumber)
     }
 }
 
-void printReadyQueue()
-{
-    if (head != NULL)
-    {
-        print("Printing ready queue\n");
-        ReadyQueueNode *current = head;
-        int i = 1;
-        while (current != NULL)
-        {
-            printf("PCB #%d:\n", i++);
-            printf("PC is %d\n", current->pcb->PC);
-            printf("PC offset is %d\n", current->pcb->PC_offset);
-            printf("PC page is %d\n", current->pcb->PC_page);
-            printf("Max Page is %d\n", current->pcb->pages_max);
-            printf("Filename is #%s\n", current->pcb->fileName);
-            for (int i = 0; i < 10; i++)
-            {
-                printf("Page number %d corresponds to frame number %d\n", i, current->pcb->pageTable[i]);
-            }
-            current = current->next;
-        }
-    }
-}
-
 void initializePageTable(int pageTable[])
 {
     for (int i = 0; i < 10; i++)
@@ -128,13 +104,13 @@ void initializePageTable(int pageTable[])
 
 int updatePCB(int quanta, PCB *pcb)
 {
-    pcb->PC = pcb->PC + quanta;
-    pcb->PC_offset = (pcb->PC) % 4;
-    pcb->PC_page = (pcb->PC) / 4;
     if (pcb->PC_page == pcb->pages_max || pcb->end == pcb->PC + 1)
     {
         return END_OF_FILE;
     }
+    pcb->PC = pcb->PC + quanta;
+    pcb->PC_offset = (pcb->PC) % 4;
+    pcb->PC_page = (pcb->PC) / 4;
     return 0;
 }
 

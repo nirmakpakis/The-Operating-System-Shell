@@ -112,7 +112,7 @@ int print(char *words[])
 
 int runFile(char *fileName)
 {
-    FILE *file = fopen(fileName, "r");
+    FILE *file = (fileName, "r");
     if (file == NULL)
     {
         return FILE_NOT_FOUND;
@@ -144,7 +144,6 @@ int exec(char *words[], int size)
         {
             return errorCode;
         }
-        free(program);
     }
     scheduler();
 

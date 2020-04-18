@@ -20,7 +20,7 @@ typedef struct cpu_object
 
 void clearCPU();
 int run(int quanta, PCB *pcb);
-void updateCPU(int quanta, int nextPosition);
+int updateCPU(int quanta, int nextPosition);
 
 extern CPU *cpu_instance;
 

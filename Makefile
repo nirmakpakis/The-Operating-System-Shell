@@ -18,4 +18,3 @@ pcb.o: pcb.c
 	gcc -c pcb.c
 clean:
 	rm *.o mykernel
-	rm -rf BackingStore

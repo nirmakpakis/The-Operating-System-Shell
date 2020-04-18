@@ -1,7 +1,6 @@
 # The-Operating-System-Shell
-This is a project for the class ECSE 427/COMP 310
-I used mimi.cs.mcgill.ca to test it
-I increased the size of the given test scripts to show that how page fault works
+*This is a project for the class ECSE 427/COMP 310
+*I used mimi.cs.mcgill.ca to test it
 
 ## Compiling the shell
   ### Compiling manualy 
